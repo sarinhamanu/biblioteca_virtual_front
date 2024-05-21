@@ -13,17 +13,15 @@ function  Footer(): React.JSX.Element{
     return(
         <View style={styles.footer}>
    <TouchableOpacity onPress={()=>navigation.navigate('')}>
-  <Image source={require('../assets/images/')}/>
+  <Image source={require('../assets/images/catalogo.png')}/>
    </TouchableOpacity >
    <TouchableOpacity onPress={()=>navigation.navigate('')}>
-   <Image source={require('../assets/images/')}/>
+   <Image source={require('../assets/images/compra.png')}/>
    </TouchableOpacity>
    <TouchableOpacity>
-   <Image source={require('../assets/images/')}/>
+   <Image source={require('../assets/images/usuario.png')}/>
    </TouchableOpacity>
-   <TouchableOpacity onPress={()=> navigation.navigate('')}>
-   <Image source={require('../assets/images/')}/>
-   </TouchableOpacity>
+ 
 
         </View>
     );

@@ -1,9 +1,12 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React,{useEffect,useState} from "react";
+import { Link, useNavigation, useRoute } from "@react-navigation/native";
+import React,{ChangeEvent, FormEvent, useEffect,useState} from "react";
 import { Button, StatusBar,StyleSheet,Text,TouchableOpacity,View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import Head from "../components/Head";
 import Footer from "../components/Footer";
+// import axios from "axios";
+// import Swal from "sweetalert2";
+
 
 interface Livro{
     id:number;
@@ -41,7 +44,11 @@ const EditarLivro: React.FC=()=>{
         setGenero(livro.genero);
         setAvaliacao(livro.avaliacao);
     })
+
+      
+        
     return(
+        
         <View  style={styles.container}>
             <StatusBar backgroundColor="red" barStyle="light-content"/>
              < Head/>
@@ -59,17 +66,25 @@ const EditarLivro: React.FC=()=>{
                 <TextInput style={styles.input} value={genero} onChangeText={setGenero} multiline/>
 
                 <TextInput style={styles.input} value={avaliacao} onChangeText={setAvaliacao} multiline/>
+                
+              
 
              <TouchableOpacity style={styles.button}onPress={()=> navigation.goBack()}>
                 <Text  style={styles.buttonText}>Voltar</Text>
              </TouchableOpacity>
-
+       
                 <View style={styles.menuList}></View>
                 <Footer/>
+
+             
+
+        
              </View>
         </View>
+        
     );
 }
+
 
 const styles = StyleSheet.create({
     container:{
@@ -133,4 +148,5 @@ alignItems:'center'
   menuList:{
  flexGrow:1
   }
-})
+});
+export default EditarLivro;
