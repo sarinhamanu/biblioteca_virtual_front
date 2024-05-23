@@ -4,14 +4,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { View } from "react-native";
 import CadastroLivros from "./src/screens/CadastroLivro";
 import EditarLivro from "./src/screens/EditarLivro";
-import PesquisarLivro from "./src/screens/PesquisaLivro";
+
+import ListagemLivros from "./src/screens/ListagemLivros";
 
 //const Stack = createStackNavigator();
 
 
 function App(): React.JSX.Element{
   return(
-    <PesquisarLivro/>
+ < EditarLivro/>
   );
 }
 

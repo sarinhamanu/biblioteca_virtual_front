@@ -1,14 +1,12 @@
-import { Link, useNavigation, useRoute } from "@react-navigation/native";
-import React,{ChangeEvent, FormEvent, useEffect,useState} from "react";
-import { Button, StatusBar,StyleSheet,Text,TouchableOpacity,View } from "react-native";
+
+import React,{useEffect,useState} from "react";
+import { Button, StatusBar,StyleSheet,Text,TouchableOpacity,View, Image } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import Head from "../components/Head";
 import Footer from "../components/Footer";
-// import axios from "axios";
-// import Swal from "sweetalert2";
 
 
-interface Livro{
+interface EdicaoLivro{
     id:number;
     titulo:string;
     autor:string;
@@ -19,7 +17,7 @@ interface Livro{
     avaliacao:string;
 }
 
-const EditarLivro: React.FC=()=>{
+const EdicaoLivro: React.FC=()=>{
     const [titulo, setTitulo]= useState<string>('');
     const [autor, setAutor]= useState<string>('');
     const [data_de_lancamento, setData_de_lancamento]= useState<string>('');
@@ -29,29 +27,14 @@ const EditarLivro: React.FC=()=>{
     const [avaliacao, setAvaliacao]= useState<string>('');
 
 
-    const navigation= useNavigation();
-    const route = useRoute();
-
-
-    useEffect(()=>{
-        const{livro}=route.params;
-
-        setTitulo(livro.titulo);
-        setAutor(livro.autor);
-        setData_de_lancamento(livro.data_de_lancamento);
-        setEditora(livro.editora);
-        setSinopse(livro.sinopse);
-        setGenero(livro.genero);
-        setAvaliacao(livro.avaliacao);
-    })
-
-      
-        
     return(
-        
         <View  style={styles.container}>
-            <StatusBar backgroundColor="red" barStyle="light-content"/>
-             < Head/>
+            <StatusBar backgroundColor="#000000" barStyle="light-content"/>
+             
+            <View style={styles.header}>
+            <Image source={require('../assets/images/Icon.png')} style={styles.headerIcon} />
+            </View>
+
              <View style={styles.form}>
                 <TextInput style={styles.input} value={titulo} onChangeText={setTitulo}/>
 
@@ -66,87 +49,83 @@ const EditarLivro: React.FC=()=>{
                 <TextInput style={styles.input} value={genero} onChangeText={setGenero} multiline/>
 
                 <TextInput style={styles.input} value={avaliacao} onChangeText={setAvaliacao} multiline/>
-                
-              
-
-             <TouchableOpacity style={styles.button}onPress={()=> navigation.goBack()}>
-                <Text  style={styles.buttonText}>Voltar</Text>
-             </TouchableOpacity>
-       
-                <View style={styles.menuList}></View>
-                <Footer/>
-
-             
-
-        
-             </View>
+            <View style={styles.menuList}></View>
+            <Footer />
+            </View>
         </View>
-        
     );
 }
 
-
 const styles = StyleSheet.create({
-    container:{
-        flex:1
+    container: {
+        backgroundColor: '#C0C0C0' ,
+        flex: 1
     },
-    header:{
-        backgroundColor:'red',
-        paddingVertical:10,
-        alignItems:'center'
-
+    header: {
+        backgroundColor: '#C0C0C0',
+        alignItems: 'center',
+        paddingVertical: 30,
     },
-    headerText:{
-        fontSize:20,
-        fontWeight:'bold',
-        color:'white'
+    headerIcon: {
+        width: 300,
+        height: 300,
+        marginBottom: -80,
+        marginTop: -80
     },
-    form:{
-        padding:10,
-        backgroundColor:'f0f0f0',
-        marginBottom:10
+    form: {
+        padding: 10,
+        backgroundColor: '#C0C0C0',
+        borderRadius: 10,
     },
-    input:{
-        height:40,
-        borderColor:'gray',
-        borderWidth:1,
-        marginBottom:10,
-        paddingHorizontal:10,
-        borderRadius:10
+    input: {
+        fontWeight: 'bold',
+        height: 50,
+        borderWidth: 3,
+        borderColor: '#2C7DA0',
+        marginBottom: 10,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        marginTop: 10
     },
-  imageButton:{
-    backgroundColor:'red',
-    padding:10,
-    borderRadius:5,
-    alignItems:'center',
-    marginBottom:10
-  },
-  imagemButtonText:{
-       color:'white',
-       fontWeight:'bold'
-  },
-  imagemSelecionada:{
-  width:200,
-  height:200,
-  resizeMode:'cover',
-  borderRadius:5,
-  marginBottom:10
-  },
-  alinhamentoImagemSelecionada:{
-alignItems:'center'
-  },
-  button:{
-backgroundColor:'red',
-padding:10,
-borderRadius:5,
-alignItems:'center'
-  },
-  buttonText:{
- color:'white',
- fontWeight:'bold'
-  },
-  menuList:{
- flexGrow:1
-  }
+    imageButton: {
+        backgroundColor: '#000000',
+        padding: 10,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginBottom: 5,
+    },
+    imageButtonText: {
+        color: '#FFF',
+        fontWeight: 'bold',
+    },
+    imagemSelecionada: {
+        width: 200,
+        height: 200,
+        resizeMode: 'cover',
+        borderRadius: 1000,
+        marginBottom: 10,
+        borderWidth: 10,
+        borderColor: '#000000',
+    },
+    alinhamentoImagemSelecionada: {
+        alignItems: 'center'
+    },
+    button: {
+        backgroundColor: '#FFF',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center'
+    },
+    buttonText: {
+        color: '#FFF',
+        fontWeight: 'bold',
+    },
+    linhaTitle: {
+        color:'#FFF',
+    },
+    menuList:{
+        flexGrow: 1
+    }
 });
-export default EditarLivro;
+
+export default EdicaoLivro;

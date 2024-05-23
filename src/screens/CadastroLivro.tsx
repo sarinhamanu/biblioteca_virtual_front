@@ -1,7 +1,7 @@
 
 import axios from "axios";
 import React, { useState } from "react";
-import {ScrollView, Image, StatusBar, StyleSheet, Text, TextInput,TouchableOpacity, View } from "react-native";
+import {ScrollView, Image, StatusBar, StyleSheet, Text, TextInput,TouchableOpacity, View, ImageBackground } from "react-native";
 
 const CadastroLivros: React.FC = () => {
     const [titulo, setTitulo] = useState<string>('');
@@ -13,7 +13,7 @@ const CadastroLivros: React.FC = () => {
     const [avaliacao, setAvaliacao] = useState<string>('');
     const [imagem, setImagem] = useState<any>('');
 
-    const CadastroProduto = async () => {
+    const CadastroLivros = async () => {
         try{
         const formData=new FormData();
         formData.append('titulo', titulo);
@@ -41,10 +41,12 @@ const response= await axios.post('http://10.137.11.217:8000/api/livro/cadastro',
 
     return (
         <View style={styles.container}>
+ 
+<ImageBackground source={require('../assets/images/Fundo.png')} resizeMode="cover" style={styles.container}/>
             <StatusBar backgroundColor="#000000" barStyle="light-content" />
-
+                   
             <View style={styles.header}>
-            <Image source={require('../assets/images/capa.png')} style={styles.headerIcon} />
+            <Image source={require('../assets/images/Icon.png')} style={styles.headerIcon} />
             </View>
 
             <View style={styles.form}>
@@ -122,7 +124,6 @@ const response= await axios.post('http://10.137.11.217:8000/api/livro/cadastro',
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#C0C0C0' ,
         flex: 1
     },
     footer: {
@@ -133,8 +134,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10
     },
     footerIcon: {
-        height: 40,
-        width: 40
+        height: 60,
+        width: 60,
+        marginTop: -30
     },
     header: {
         backgroundColor: '#C0C0C0',
