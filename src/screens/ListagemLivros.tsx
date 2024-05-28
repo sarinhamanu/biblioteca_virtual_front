@@ -15,7 +15,7 @@ function Listagem(): React.JSX.Element {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get('http://10.137.11.218/biblioteca_virtual/public/api/livros/visualizar');
+                const response = await axios.get('http://10.137.11.218/biblioteca_virtual/public/api/livro/retornarTodos');
                 setProduto(response.data.dados);
              } catch (error) {
                 setErro("Ocorreu um erro");

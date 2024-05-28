@@ -1,10 +1,10 @@
 
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React,{useEffect,useState} from "react";
 import { Button, StatusBar,StyleSheet,Text,TouchableOpacity,View, Image } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import Head from "../components/Head";
 import Footer from "../components/Footer";
-
 
 interface EdicaoLivro{
     id:number;
@@ -27,12 +27,15 @@ const EdicaoLivro: React.FC=()=>{
     const [avaliacao, setAvaliacao]= useState<string>('');
 
 
+    const navigation= useNavigation();
+    const route = useRoute();
+
     return(
         <View  style={styles.container}>
             <StatusBar backgroundColor="#000000" barStyle="light-content"/>
              
             <View style={styles.header}>
-            <Image source={require('../assets/images/Icon.png')} style={styles.headerIcon} />
+            <Image source={require('../assets/images/capa.jpg')} style={styles.headerIcon} />
             </View>
 
              <View style={styles.form}>
@@ -49,8 +52,12 @@ const EdicaoLivro: React.FC=()=>{
                 <TextInput style={styles.input} value={genero} onChangeText={setGenero} multiline/>
 
                 <TextInput style={styles.input} value={avaliacao} onChangeText={setAvaliacao} multiline/>
+
+                <TouchableOpacity style={styles.button} onPress={()=> navigation.goBack()}>
+                <Text style={styles.buttonText}>Voltar</Text>
+            </TouchableOpacity>
             <View style={styles.menuList}></View>
-            <Footer />
+            <Footer/>
             </View>
         </View>
     );

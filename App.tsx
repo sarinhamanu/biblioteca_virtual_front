@@ -12,7 +12,7 @@ import ListagemLivros from "./src/screens/ListagemLivros";
 
 function App(): React.JSX.Element{
   return(
- < EditarLivro/>
+ < CadastroLivros/>
   );
 }
 

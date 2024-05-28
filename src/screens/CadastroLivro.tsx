@@ -2,6 +2,9 @@
 import axios from "axios";
 import React, { useState } from "react";
 import {ScrollView, Image, StatusBar, StyleSheet, Text, TextInput,TouchableOpacity, View, ImageBackground } from "react-native";
+import Footer from "../components/Footer";
+import Head from "../components/Head";
+
 
 const CadastroLivros: React.FC = () => {
     const [titulo, setTitulo] = useState<string>('');
@@ -11,7 +14,39 @@ const CadastroLivros: React.FC = () => {
     const [editora, setEditora] = useState<string>('');
     const [sinopse, setSinopse] = useState<string>('');
     const [avaliacao, setAvaliacao] = useState<string>('');
+    const [error, setErrors] = useState<string>('');
     const [imagem, setImagem] = useState<any>('');
+
+
+    const validateForm = () => {
+        const newErrors: any = {};
+   
+        if (!titulo) {
+          newErrors.titulo = "O campo título é obrigatório";
+        }
+        if (!autor) {
+          newErrors.autor= "O campo autor é obrigatório";
+        }
+        if (!data_lancamento) {
+          newErrors.data_lancamento= "O campo data de lançamento é obrigatório";
+        }
+        if (!editora) {
+          newErrors.editora= "O campo editora é obrigatório";
+        }
+        if (!sinopse) {
+          newErrors.sinopse = "O campo sinopse é obrigatório";
+        }
+        if (!genero) {
+          newErrors.genero= "O campo genero é obrigatório";
+        }
+        if (!avaliacao) {
+          newErrors.avaliacao= "O campo avaliacaoé obrigatório";
+        }
+        setErrors(newErrors);
+   
+        return !Object.keys(newErrors).length;
+      };
+
 
     const CadastroLivros = async () => {
         try{
@@ -29,6 +64,7 @@ const CadastroLivros: React.FC = () => {
             name:new Date()+ '.jpg',
         });
 
+
 const response= await axios.post('http://10.137.11.217:8000/api/livro/cadastro', formData,{
     headers:{
         'Content-Type':'multipart/form-data'
@@ -39,26 +75,26 @@ const response= await axios.post('http://10.137.11.217:8000/api/livro/cadastro',
         }
     }
 
+
     return (
         <View style={styles.container}>
- 
-<ImageBackground source={require('../assets/images/Fundo.png')} resizeMode="cover" style={styles.container}/>
+            <ImageBackground source={require('../assets/images/Fundo.png')}  style={styles.background}/>
+            
+          
             <StatusBar backgroundColor="#000000" barStyle="light-content" />
-                   
+            <Head/>
+
+
             <View style={styles.header}>
             <Image source={require('../assets/images/Icon.png')} style={styles.headerIcon} />
             </View>
 
+
+            <ScrollView style={styles.scroll}>
+
+
             <View style={styles.form}>
 
-            <Text style={styles.linhaTitle}>◎━━━━━━━━━━━━━━━━◎.◈.◎━━━━━━━━━━━━━━━◎</Text>
-
-
-            <TextInput
-                    style={styles.input}
-                    placeholder="Título:"
-                    value={titulo}
-                    onChangeText={setTitulo}/>
 
                 <TextInput
                     style={styles.input}
@@ -66,19 +102,21 @@ const response= await axios.post('http://10.137.11.217:8000/api/livro/cadastro',
                     value={autor}
                     onChangeText={setAutor}/>
 
+
                 <TextInput
-                    style={styles.input}
+                    style={styles.inputGenero}
                     placeholder="Gênero:"
                     value={genero}
                     onChangeText={setGenero}
                     multiline />
                     
                 <TextInput
-                    style={styles.input}
-                    placeholder="Data de lançamento:"
+                    style={styles.inputDT}
+                    placeholder="Data:"
                     value={data_lancamento}
                     onChangeText={setDataLancamento}
                     multiline />
+
 
                 <TextInput
                     style={styles.input}
@@ -87,6 +125,7 @@ const response= await axios.post('http://10.137.11.217:8000/api/livro/cadastro',
                     onChangeText={setEditora}
                     multiline />
 
+
                 <TextInput
                     style={styles.input}
                     placeholder="Sinopse:"
@@ -94,67 +133,51 @@ const response= await axios.post('http://10.137.11.217:8000/api/livro/cadastro',
                     onChangeText={setSinopse}
                     multiline />
 
+
                 <TextInput
                     style={styles.input}
                     placeholder="Avaliação:"
                     value={avaliacao}
                     onChangeText={setAvaliacao}
                     multiline />
+
+
+                <TouchableOpacity style={styles.button} onPress={CadastroLivros}>
+                    <Text style={styles.buttonText}>Cadastrar</Text>
+                </TouchableOpacity>
+
+
+                <View style={styles.menuList}></View>
+            
                     
                 <Text style={styles.linhaTitle}>◎━━━━━━━━━━━━━━━━◎.◈.◎━━━━━━━━━━━━━━━◎</Text>
-                    
-                <View style={styles.footer}>
+                
+                <View>
 
-                <TouchableOpacity>
-                <Image source={require('../assets/images/usuario.png')} style={styles.footerIcon}/>
-                </TouchableOpacity>
 
-                <TouchableOpacity>
-                    <Image source={require('../assets/images/catalogo.png')} style={styles.footerIcon} />
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                <Image source={require('../assets/images/compra.png')} style={styles.footerIcon}/>
-                </TouchableOpacity>
                 </View>
+                <View style={styles.menuList}></View>
+            <Footer/>
             </View>
+            </ScrollView>
         </View>
     );
 }
 
+
 const styles = StyleSheet.create({
-    container: {
+    background:{
+        height:1000,
+        flex:1
+    },
+    menuList: {
         flex: 1
     },
-    footer: {
-        backgroundColor: '#C0C0C0',
-        flexDirection: "row",
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        paddingVertical: 10
+    container: {
+      
+        flex: 1,
     },
-    footerIcon: {
-        height: 60,
-        width: 60,
-        marginTop: -30
-    },
-    header: {
-        backgroundColor: '#C0C0C0',
-        alignItems: 'center',
-        paddingVertical: 30,
-    },
-    headerIcon: {
-        width: 300,
-        height: 300,
-        marginBottom: -90,
-        marginTop: -90
-    },
-    form: {
-        padding: 10,
-        backgroundColor: '#C0C0C0',
-        borderRadius: 10,
-    },
-    input: {
+    inputGenero: {
         fontWeight: 'bold',
         height: 50,
         borderWidth: 3,
@@ -162,36 +185,51 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         paddingHorizontal: 10,
         borderRadius: 10,
-        marginTop: 10
+        marginTop: 10,
+        width:'52%'
     },
-    imageButton: {
-        backgroundColor: '#000000',
-        padding: 10,
-        borderRadius: 10,
-        alignItems: 'center',
-        marginBottom: 5,
-    },
-    imageButtonText: {
-        color: '#FFF',
+    inputDT: {
         fontWeight: 'bold',
+        height: 50,
+        borderWidth: 3,
+        borderColor: '#2C7DA0',
+        marginBottom: 5,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        marginTop: -55,
+        width:'40%',
+        marginLeft:220
     },
-    imagemSelecionada: {
-        width: 200,
-        height: 200,
-        resizeMode: 'cover',
-        borderRadius: 1000,
+    header: {
+        alignItems: 'center',
+        paddingVertical: 30
+    },
+    headerIcon: {
+        width: 250,
+        height: 250,
+        marginBottom: -80,
+        marginTop: -80
+    },
+    form: {
+        padding: 10,
+    },
+    input: {
+        fontWeight: 'bold',
+        height: 50,
+        borderWidth: 3,
+        borderColor: '#2C7DA0',
         marginBottom: 10,
-        borderWidth: 10,
-        borderColor: '#000000',
-    },
-    alinhamentoImagemSelecionada: {
-        alignItems: 'center'
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        marginTop: 5
     },
     button: {
-        backgroundColor: '#FFF',
+        backgroundColor: '#2C7DA0',
         padding: 10,
         borderRadius: 5,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 40,
+        marginBottom: -20
     },
     buttonText: {
         color: '#FFF',
@@ -199,8 +237,21 @@ const styles = StyleSheet.create({
     },
     linhaTitle: {
         color:'#2C7DA0',
-        marginTop: 10
+        marginBottom: -45,
+        marginTop: 40
+    },
+    scroll: {
+
+
     }
 });
 
+
 export default CadastroLivros;
+
+
+
+
+
+
+
