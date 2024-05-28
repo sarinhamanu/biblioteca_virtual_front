@@ -5,6 +5,7 @@ import { Button, StatusBar,StyleSheet,Text,TouchableOpacity,View, Image } from "
 import { TextInput } from "react-native-gesture-handler";
 import Head from "../components/Head";
 import Footer from "../components/Footer";
+import HeadListagem from "../components/HeadListagem";
 
 interface EdicaoLivro{
     id:number;
@@ -68,7 +69,7 @@ const EdicaoLivro: React.FC=()=>{
             <View style={styles.menuList}></View>
             
             <Footer/>
-            
+            <Head/>
             </View>
         </View>
         
