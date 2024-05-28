@@ -29,13 +29,17 @@ const EdicaoLivro: React.FC=()=>{
 
     const navigation= useNavigation();
     const route = useRoute();
+    
 
     return(
+
+     
+
         <View  style={styles.container}>
             <StatusBar backgroundColor="#000000" barStyle="light-content"/>
              
             <View style={styles.header}>
-            <Image source={require('../assets/images/capa.jpg')} style={styles.headerIcon} />
+            <Image source={require('../assets/images/Icon.png')} style={styles.headerIcon} />
             </View>
 
              <View style={styles.form}>
@@ -56,10 +60,18 @@ const EdicaoLivro: React.FC=()=>{
                 <TouchableOpacity style={styles.button} onPress={()=> navigation.goBack()}>
                 <Text style={styles.buttonText}>Voltar</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={styles.button}
+                onPress={()=>{EdicaoLivro()}}>
+                    <Text style={styles.buttonText1}>Entrar</Text>
+                </TouchableOpacity>
+                
             <View style={styles.menuList}></View>
+            
             <Footer/>
+            
             </View>
         </View>
+        
     );
 }
 
@@ -132,7 +144,12 @@ const styles = StyleSheet.create({
     },
     menuList:{
         flexGrow: 1
-    }
+    },
+    buttonText1: {
+        textAlign:'center',
+        fontSize:16,
+        lineHeight:40,
+    },
 });
 
 export default EdicaoLivro;

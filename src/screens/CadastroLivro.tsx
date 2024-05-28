@@ -167,7 +167,7 @@ const response= await axios.post('http://10.137.11.217:8000/api/livro/cadastro',
 
 const styles = StyleSheet.create({
     background:{
-        height:1000,
+        height:760,
         flex:1
     },
     menuList: {
