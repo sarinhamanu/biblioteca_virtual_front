@@ -1,153 +1,202 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-import { Button, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Head from "../components/Head";
-import { TextInput } from "react-native-gesture-handler";
-import Footer from "../components/Footer"
-import axios from "axios";
+import { useEffect, useState } from "react"
+import { ImageBackground, StatusBar, StyleSheet, ScrollView, TextInput, Image, Text, View, TouchableOpacity } from "react-native";
+import Footer from "../components/Footer";
+import CadastroLivros from "./CadastroLivro";
+import HeadEdicao from "../components/HeadEdicao";
+
+const EdicaoLivros: React.FC = () => {
+
+    const [titulo, setTitulo] = useState<string>('');
+    const [autor, setAutor] = useState<string>('');
+    const [data_de_lancamento, setDataDeLancamento] = useState<string>('');
+    const [editora, setEditora] = useState<string>('');
+    const [sinopse, setSinopse] = useState<string>('');
+    const [genero, setGenero] = useState<string>('');
+    const [avaliacao, setAvaliacao] = useState<string>('');
 
 
-
- 
-    const navigation= useNavigation();
-    const route = useRoute();
-    
-    function EditarLivro(): React.JSX.Element {
-        const [livro, setLivro] = useState<any[]>([]);
-        const [titulo,setTitulo]= useState<string>('');
-        const [autor,setAutor]= useState<string>('');
-        const [data_de_lancamento, setDataLancamento]= useState<string>('');
-        const [editora,setEditora]= useState<string>('');
-        const [sinopse,setSinopse]= useState<string>('');
-        const [genero, setGenero]= useState<string>('');
-        const [avaliacao,setAvaliacao]= useState<string>('');
-        const [erro, setErro] = useState<string>('');
-    useEffect(()=>{
-        async function fetchData() {
-            try {
-                const response = await axios.put('http://10.137.11.233/api/livro/update');
-                setLivro(response.data.dados);
-             } catch (error) {
-                setErro("Ocorreu um erro");
-                console.log(error);
-            }
-        }
-        fetchData();
-   
-        
-        const{Livro}= route.params;
-
-        setTitulo(Livro.titulo);
-        setAutor(Livro.autor);
-        setDataLancamento(Livro.data_de_lancamento);
-        setEditora(Livro.editora);
-        setSinopse(Livro.sinopse);
-        setGenero(Livro.genero);
-        setAvaliacao(Livro.avaliacao);
-    })
-    return(
+    return (
         <View style={styles.container}>
-            <StatusBar backgroundColor="red" barStyle="light-content"/>
-            <Head/>
-
-            <View style={styles.form}>
-             <TextInput style={styles.input} value={titulo} 
-             onChangeText={setTitulo} multiline/>
-
-            <TextInput style={styles.input} value={autor}
-             onChangeText={setAutor} multiline />
-
-            <TextInput style={styles.input} value={data_de_lancamento}
-             onChangeText={setDataLancamento} multiline/>
+            <ImageBackground source={require('../assets/images/Fundo.png')} style={styles.background} />
 
 
-             <TextInput style={styles.input} value={editora} 
-             onChangeText={setEditora}/>
+            <StatusBar backgroundColor="#000000" barStyle="light-content" />
+            <HeadEdicao />
 
-            <TextInput style={styles.input} value ={sinopse}
-             onChangeText={setSinopse} multiline/>
-
-            <TextInput style={styles.input} value={genero}
-             onChangeText={setGenero} multiline/>
-
-            <TextInput style={styles.input} value={avaliacao}
-             onChangeText={setAvaliacao} multiline/>
-
-              <TouchableOpacity style={styles.button} onPress={()=> navigation.goBack()}>
-                   <Text style={styles.buttonText}>Voltar</Text>
-              </TouchableOpacity>
-
-              <View style={styles.menuList}></View>
-              <Footer/>
-
+            <View style={styles.header}>
+                <Image source={require('../assets/images/icon.png')} style={styles.headerIcon} />
             </View>
-        </View>
 
+            <ScrollView style={styles.scroll}>
+
+                <View style={styles.form}>
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Título:"
+                        value={titulo}
+                        onChangeText={setTitulo} />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Autor:"
+                        value={autor}
+                        onChangeText={setAutor} />
+
+                    <TextInput
+                        style={styles.inputGenero}
+                        placeholder="Gênero:"
+                        value={genero}
+                        onChangeText={setGenero}
+                        multiline />
+
+                    <TextInput
+                        style={styles.inputDT}
+                        placeholder="Data:"
+                        value={data_de_lancamento}
+                        onChangeText={setDataDeLancamento}
+                        multiline />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Editora:"
+                        value={editora}
+                        onChangeText={setEditora}
+                        multiline />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Sinopse:"
+                        value={sinopse}
+                        onChangeText={setSinopse}
+                        multiline />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Avaliação:"
+                        value={avaliacao}
+                        onChangeText={setAvaliacao}
+                        multiline />
+
+
+                    <TouchableOpacity style={styles.button} onPress={EdicaoLivros}>
+                        <Text style={styles.buttonText}>Salvar Edição</Text>
+                    </TouchableOpacity>
+                    <View style={styles.menuList}></View>
+
+                    <View>
+
+                    </View>
+                    <View style={styles.menuList}></View>
+                </View>
+            </ScrollView>
+            <Footer />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
+    background: {
+        height: 760,
+        flex: 1
     },
-   header: {
-    backgroundColor:'red',
-    paddingVertical:10,
-    alignItems:'center'
-   },
-   headerText:{
-    fontSize: 20,
-    fontWeight:'bold',
-    color:'white'
-   },
-   form:{
-    padding:10,
-    backgroundColor:'#f0f0f0',
-    marginBottom:10
-   },
-   input:{
-    height:40,
-    borderColor:'gray',
-    borderWidth:1,
-    marginBottom:10,
-    paddingHorizontal:10,
-    borderRadius:10
-   },
-   imageButton:{
-    backgroundColor:'red',
-    padding:10,
-    borderRadius:5,
-    alignItems:'center',
-    marginBottom:10
-   },
-   imageButtonText:{
-    color:'white',
-    fontWeight:'bold'
-   },
-   imagemSelecionada:{
-    width:200,
-    height:200,
-    resizeMode:'cover',
-    borderRadius:5,
-    marginBottom: 10
-   },
-   alinhamentoImagemSelecionada:{
-    alignItems:'center'
-   },
-   button:{
-    backgroundColor:'red',
-    padding:10,
-    borderRadius:5,
-    alignItems:'center'
-   },
-   buttonText:{
-    color:'white',
-    fontWeight:'bold'
-   },
-   menuList:{
-    flexGrow:1
-   },
+    container: {
 
+        flex: 1,
+    },
+    inputGenero: {
+        fontWeight: 'bold',
+        height: 50,
+        borderWidth: 3,
+        borderColor: '#2C7DA0',
+        marginBottom: 5,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        marginTop: 10,
+        width: '52%'
+    },
+    inputDT: {
+        fontWeight: 'bold',
+        height: 50,
+        borderWidth: 3,
+        borderColor: '#2C7DA0',
+        marginBottom: 5,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        marginTop: -55,
+        width: '40%',
+        marginLeft: 220
+    },
+    menuList: {
+        flexGrow: 1
+    },
+    header: {
+        alignItems: 'center',
+        paddingVertical: 30
+    },
+    headerIcon: {
+        width: 250,
+        height: 250,
+        marginBottom: -80,
+        marginTop: -80
+    },
+    form: {
+        padding: 10,
+    },
+    input: {
+        fontWeight: 'bold',
+        height: 50,
+        borderWidth: 3,
+        borderColor: '#2C7DA0',
+        marginBottom: 10,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        marginTop: 3
+    },
+    imageButton: {
+
+        padding: 10,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginBottom: 5,
+    },
+    imageButtonText: {
+        color: '#FFF',
+        fontWeight: 'bold',
+    },
+    imagemSelecionada: {
+        width: 200,
+        height: 200,
+        resizeMode: 'cover',
+        borderRadius: 1000,
+        marginBottom: 10,
+        borderWidth: 10,
+        borderColor: '#000000',
+    },
+    alinhamentoImagemSelecionada: {
+        alignItems: 'center'
+    },
+    button: {
+        backgroundColor: '#2C7DA0',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 10
+    },
+    buttonText: {
+        color: '#FFF',
+        fontWeight: 'bold',
+    },
+    linhaTitle: {
+        color: '#2C7DA0',
+        marginBottom: -45,
+        marginTop: 40
+    },
+    scroll: {
+
+    }
 });
 
-export default EditarLivro;
+export default EdicaoLivros;

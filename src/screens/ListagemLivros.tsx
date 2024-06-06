@@ -3,24 +3,48 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Image, StyleSheet, Text, TouchableOpacity, StatusBar, FlatList, View, TextInput, ImageBackground } from "react-native";
 import Footer from "../components/Footer";
-import Head from "../components/Head";
 import { ScrollView } from "react-native-gesture-handler";
 import HeadListagem from "../components/HeadListagem";
 
 
 
+interface Livro {
+    id: string;
+    titulo: string;
+    autor: string;
+    data_de_lancamento: string;
+    editora: string;
+    sinopse: string;
+    genero: string;
+    avaliacao: string;
+
+}
+
+const renderItem = ({ item }: { item: Livro }) => (
+    <TouchableOpacity style={styles.item}>
+        <Text style={styles.textTitulo}>{item.titulo}</Text>
+        <Text style={styles.textAutor}>{item.autor}</Text>
+        <Text style={styles.textData}>{item.data_de_lancamento}</Text>
+        <Text style={styles.textEditora}>{item.editora}</Text>
+        <Text style={styles.textSinopse}>{item.sinopse}</Text>
+        <Text style={styles.textGenero}>{item.genero}</Text>
+        <Text style={styles.textAvaliacao}>{item.avaliacao}</Text>
+    </TouchableOpacity>
+);
 
 function Listagem(): React.JSX.Element {
-    const [produto, setProduto] = useState<any[]>([]);
-   
+    const [livro, setLivro] = useState<Livro[]>([]);
+
     const [erro, setErro] = useState<string>("");
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get('http://10.137.11.233/api/livro/retornarTodos');
-                setProduto(response.data.dados);
-             } catch (error) {
+                const response = await axios.get('http://10.137.11.233:8000/api/livro/retornarTodos');
+                setLivro(response.data);
+
+                console.log(livro)
+            } catch (error) {
                 setErro("Ocorreu um erro");
                 console.log(error);
             }
@@ -28,50 +52,39 @@ function Listagem(): React.JSX.Element {
 
         fetchData();
     }, []);
-
-    const renderItem = ({ item }: { item: Livro }) => (
-        <TouchableOpacity style={styles.item}>
-            <Text style={styles.textTitulo}>{item.titulo}</Text>
-            <Text style={styles.textAutor}>{item.autor}</Text>
-            <Text style={styles.textData}>{item.data_de_lancamento}</Text>
-            <Text style={styles.textEditora}>{item.editora}</Text>
-            <Text style={styles.textSinopse}>{item.sinopse}</Text>
-            <Text style={styles.textGenero}>{item.genero}</Text>
-            <Text style={styles.textAvaliacao}>{item.avaliacao}</Text>
-        </TouchableOpacity>    
-    );
-    
+    console.log(renderItem);
 
     return (
-        
-            <View style={styles.container}>
 
-              <ImageBackground source={require('../assets/images/Fundo.png')}  style={styles.background}/>
+        <View style={styles.container}>
+
+            <ImageBackground source={require('../assets/images/Fundo.png')} style={styles.background} />
             <StatusBar backgroundColor='#000000' barStyle='light-content' />
-            <HeadListagem/>
+            <HeadListagem />
 
 
             <View style={styles.header}>
-            <Image source={require('../assets/images/Icon.png')} style={styles.headerIcon} />
+                <Image source={require('../assets/images/Icon.png')} style={styles.headerIcon} />
             </View>
 
             <View style={styles.alinhapesquisa} >
                 <Image style={styles.pesquisaicon} source={require('../assets/images/lupa.png')} />
-                
+
                 <TextInput style={styles.pesquisa} placeholder="Pesquisar..." />
             </View>
 
             <FlatList style={styles.container}
                 showsVerticalScrollIndicator={false}
-                data={produto}
+                data={livro}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.titulo.toString()}
+                keyExtractor={(item) => item.id ? item.id.toString() : Math.random().toString()}
+                contentContainerStyle={styles.menuList}
             />
             <Text style={styles.linhaTitle}>◎━━━━━━━━━━━━━━━━━◎.◈.◎━━━━━━━━━━━━━━━◎</Text>
 
 
-            <Footer/>
-            </View>
+            <Footer />
+        </View>
 
     );
 
@@ -79,91 +92,102 @@ function Listagem(): React.JSX.Element {
 
 const styles = StyleSheet.create({
     container: {
-         flex: 1
-     },
-     linhaTitle: {
-      color:'#2C7DA0',
-      marginBottom: -45,
-      marginTop: 40
-  },
-     scroll: {},
-     background:{
-      height:760,
-      flex:1
+        flex: 1
     },
-     button: {},
-     header: {
-      alignItems: 'center',
-      paddingVertical: 30
-  },
+    linhaTitle: {
+        color: '#2C7DA0',
+        marginBottom: -45,
+        marginTop: 40
+    },
+    scroll: {},
+    background: {
+        height: 760,
+        flex: 1
+    },
+    button: {
+        backgroundColor: '#2C7DA0',
+        padding: 5,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: -5
+    },
+    buttonText: {
+        color: '#FFF',
+        fontWeight: 'bold',
+    },
+    header: {
+        alignItems: 'center',
+        paddingVertical: 30
+    },
     headerIcon: {
-      width: 250,
-      height: 250,
-      marginBottom: -20,
-      marginTop: -100
-  },
-     item: {
-        backgroundColor: '#C0C0C0',
+        width: 250,
+        height: 250,
+        marginBottom: -20,
+        marginTop: -100
+    },
+    item: {
+        backgroundColor: 'white',
         padding: 19,
         marginVertical: 7,
         marginHorizontal: 15,
         borderRadius: 19,
         borderWidth: 3,
-        borderColor: '#772B39',
+        borderColor: '#2C7DA0',
         marginTop: 30
-     },
-     textTitulo: {
+    },
+    textTitulo: {
         fontSize: 30,
         color: 'white',
         marginLeft: 'auto',
         marginRight: 'auto',
-     },
-     textAutor: {
+    },
+    textAutor: {
         fontSize: 30,
         color: 'white',
         marginLeft: 'auto',
         marginRight: 'auto',
-     },
-     textGenero: {
+    },
+    textGenero: {
         fontSize: 30,
         color: 'white',
         marginLeft: 'auto',
         marginRight: 'auto',
-     },
-     textData: {
+    },
+    textData: {
         fontSize: 30,
         color: 'white',
         marginLeft: 'auto',
         marginRight: 'auto',
-     },
-     textEditora: {
+    },
+    textEditora: {
         fontSize: 30,
         color: 'white',
         marginLeft: 'auto',
         marginRight: 'auto',
-     },
-     textSinopse: {
+    },
+    textSinopse: {
         fontSize: 30,
         color: 'white',
         marginLeft: 'auto',
         marginRight: 'auto',
-     },
-     textAvaliacao: {
+    },
+    textAvaliacao: {
         fontSize: 30,
         color: 'white',
         marginLeft: 'auto',
         marginRight: 'auto',
-     },
-     image: {
-         height: 100,
-         width: 170,
-         borderRadius: 10,
-         borderWidth: 3,
-         marginLeft: 'auto',
-         marginRight: 'auto',
-         marginTop: 15
-     },
-     pesquisa: {
+    },
+    image: {
+        height: 100,
+        width: 170,
+        borderRadius: 10,
+        borderWidth: 3,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 15
+    },
+    pesquisa: {
         fontSize: 13,
         borderWidth: 3,
         borderColor: '#2C7DA0',
@@ -178,7 +202,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop:20,
+        marginTop: 20,
     },
     pesquisaicon: {
         width: 90,
@@ -191,5 +215,8 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto'
     },
- });
- export default Listagem
+    menuList: {
+        flexGrow: 1
+    },
+});
+export default Listagem
