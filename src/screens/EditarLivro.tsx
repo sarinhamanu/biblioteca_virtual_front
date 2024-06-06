@@ -4,6 +4,8 @@ import { ImageBackground, StatusBar, StyleSheet, ScrollView, TextInput, Image, T
 import Footer from "../components/Footer";
 import CadastroLivros from "./CadastroLivro";
 import HeadEdicao from "../components/HeadEdicao";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const EdicaoLivros: React.FC = () => {
 
@@ -14,6 +16,60 @@ const EdicaoLivros: React.FC = () => {
     const [sinopse, setSinopse] = useState<string>('');
     const [genero, setGenero] = useState<string>('');
     const [avaliacao, setAvaliacao] = useState<string>('');
+    const [livro, setLivro] = useState<Livro[]>([]);
+
+    const [error, setError] = useState("");
+
+
+    const excluir = (id: number)=>{
+        async function fetchData(){
+            try{
+                const response = await axios.delete('http://127.0.0.1:8000/api/excluirAgenda/'+ id);
+                if(response.data.status === true){
+
+                    const response = await axios.get('http://127.0.0.1:8000/api/retornarTodosAgenda/');
+                    setLivro(response.data.data);
+                   
+                }
+                else{
+                    console.log(error);
+                }
+            }catch(error){
+                setError("ocorreu um erro");
+                console.log(error);
+            }
+
+        }
+        fetchData();
+    }
+
+    const confirmacao = (id: number) => {
+        Swal.fire({
+            title: "Tem certeza que quer excluir?",
+            text: "Você não vai poder reverter isso depois!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sim, excluir"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                excluir(id);
+
+                Swal.fire({
+                    title: "Excluido com sucesso!",
+                    text: "seu cadastro foi excluido.",
+                    icon: "success"
+
+
+                });
+                <button onClick={()=> confirmacao(EdicaoLivros.id)} className='btn btn-danger btn-sm'>Excluir</button>
+            }
+          
+        });
+
+    }
 
 
     return (
