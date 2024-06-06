@@ -5,6 +5,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, StatusBar, FlatList, View, T
 import Footer from "../components/Footer";
 import { ScrollView } from "react-native-gesture-handler";
 import HeadListagem from "../components/HeadListagem";
+import { useNavigation } from "@react-navigation/native";
 
 
 
@@ -20,6 +21,8 @@ interface Livro {
 
 }
 
+
+const navigation =useNavigation();
 const renderItem = ({ item }: { item: Livro }) => (
     <TouchableOpacity style={styles.item}>
         <Text style={styles.textTitulo}>{item.titulo}</Text>
@@ -29,8 +32,13 @@ const renderItem = ({ item }: { item: Livro }) => (
         <Text style={styles.textSinopse}>{item.sinopse}</Text>
         <Text style={styles.textGenero}>{item.genero}</Text>
         <Text style={styles.textAvaliacao}>{item.avaliacao}</Text>
-    </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Cadastro')}>
+                        <Text style={styles.buttonText}>Editar</Text>
+                    </TouchableOpacity>
+
+    </TouchableOpacity>    
 );
+
 
 function Listagem(): React.JSX.Element {
     const [livro, setLivro] = useState<Livro[]>([]);

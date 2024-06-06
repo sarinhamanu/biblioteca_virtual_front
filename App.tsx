@@ -1,22 +1,22 @@
-import React from "react";
+import React from 'react';
+import CadastroLivros from './src/screens/CadastroLivro';
+import EdicaoLivros from './src/screens/EditarLivro';
+import Listagem from './src/screens/ListagemLivros';
+import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-//import { createStackNavigator } from "@react-navigation/stack";
-import { View } from "react-native";
-import CadastroLivros from "./src/screens/CadastroLivro";
-import EditarLivro from "./src/screens/EditarLivro";
-
-import ListagemLivros from "./src/screens/ListagemLivros";
-
-//const Stack = createStackNavigator();
 
 
-function App(): React.JSX.Element{
+const Stack = createStackNavigator();
+
+function App(): JSX.Element{
   return(
- < EditarLivro/>
-//<CadastroLivros/>
-//<ListagemLivros/>
-  );
+    <NavigationContainer>
+    <Stack.Navigator>
+    <Stack.Screen name='Cadastro' component={CadastroLivros} options={{ headerShown: false }} />
+    <Stack.Screen name='Listagem' component={Listagem} options={{ headerShown: false }} />
+    <Stack.Screen name='EditarProduto' component={EdicaoLivros} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  </NavigationContainer>
+  )
 }
-
-
 export default App;
