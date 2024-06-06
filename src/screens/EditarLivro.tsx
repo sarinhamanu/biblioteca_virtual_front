@@ -25,7 +25,7 @@ const EdicaoLivros: React.FC = () => {
             <HeadEdicao />
 
             <View style={styles.header}>
-                <Image source={require('../assets/images/icon.png')} style={styles.headerIcon} />
+                <Image source={require('../assets/images/Icon.png')} style={styles.headerIcon} />
             </View>
 
             <ScrollView style={styles.scroll}>
